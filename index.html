@@ -3,46 +3,60 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Seesaw Simulation</title>
+    <title>Advanced Seesaw Simulation</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <!-- Audio elements for sound effects -->
+    <audio id="addSound" src="https://www.soundjay.com/button/sounds/button-4.mp3" preload="auto"></audio>
+    <audio id="removeSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
+    <audio id="balanceSound" src="https://www.soundjay.com/button/sounds/button-10.mp3" preload="auto"></audio>
+
     <main class="page">
-      <h1 class="title">Seesaw Simulation</h1>
+      <h1 class="title">Interactive Seesaw</h1>
       <div class="hud">
         <div class="weights">
-          <span class="label">Left total:</span>
+          <span class="label">Left Weight:</span>
           <span id="leftWeight" class="value">0 kg</span>
+          <span class="label">Torque:</span>
+          <span id="leftTorque" class="value">0</span>
         </div>
         <div class="weights">
-          <span class="label">Right total:</span>
+          <span class="label">Right Weight:</span>
           <span id="rightWeight" class="value">0 kg</span>
+          <span class="label">Torque:</span>
+          <span id="rightTorque" class="value">0</span>
         </div>
         <div class="controls">
-          <button id="resetBtn" type="button" title="Clear all objects and state">
+          <button id="resetBtn" type="button" title="Clear all objects">
             Reset
           </button>
         </div>
       </div>
 
       <section class="stage">
-        <div id="seesaw" class="seesaw" aria-label="Seesaw plank" role="button">
+        <div class="sun"></div>
+        <div class="ground"></div>
+        <div id="seesaw" class="seesaw" aria-label="Seesaw Plank" role="button">
+          <div class="scale" id="scale" aria-hidden="true"></div>
           <div class="plank" id="plank">
             <div class="center-line" aria-hidden="true"></div>
             <div class="objects-layer" id="objectsLayer"></div>
           </div>
-          <div class="pivot" aria-hidden="true"></div>
+          <div class="pivot-container">
+            <div class="pivot-base"></div>
+            <div class="pivot" aria-hidden="true"></div>
+          </div>
+          <!-- Direction indicator arrow -->
           <div id="directionIndicator" class="direction-indicator neutral"></div>
         </div>
       </section>
 
       <p class="hint">
-        Click anywhere on the plank to drop a random weight (1–10 kg) at that position.
+        Click to add weight • Right-click to remove • Drag to move
       </p>
     </main>
 
     <script src="./main.js"></script>
   </body>
-  </html>
-
-
+</html>
