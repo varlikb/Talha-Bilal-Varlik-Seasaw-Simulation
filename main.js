@@ -369,7 +369,7 @@
     // move faster when its balanced.
     let easingFactor = 0.08;
     if(app.targetAngle === 0 && Math.abs(app.currentAngle) < 5) {
-      // dengede ve açı küçükse daha hızlı düzelt
+      // balancer agnle equal
       easingFactor = 0.15;
     }
     
