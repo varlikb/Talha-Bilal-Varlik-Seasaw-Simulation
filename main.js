@@ -3,7 +3,7 @@
   (function() {
     // plank length - not used anymore, we get it from DOM
     const MAX_ANGLE = 42;
-    let ANGLE_SCALE = 5.5; // feels good
+    let ANGLE_SCALE = 1.0; // we reduced it so every little tork difference is visible for us
     const MIN_TILT = 2.2;
     const WEIGHT_MIN = 1;
     const WEIGHT_MAX = 10;
@@ -313,8 +313,10 @@
     // update the display
     leftWeightEl.textContent = leftW.toFixed(1) + ' kg';
     rightWeightEl.textContent = rightW.toFixed(1) + ' kg';
-    leftTorqueEl.textContent = Math.round(leftT / 100);
-    rightTorqueEl.textContent = Math.round(rightT / 100);
+    const displayedLeftT = Math.round(leftT / 100);
+    const displayedRightT = Math.round(rightT / 100);
+    leftTorqueEl.textContent = displayedLeftT;
+    rightTorqueEl.textContent = displayedRightT;
     
     // calculate the target angle based on torque difference
     var diff = rightT - leftT;
@@ -322,12 +324,10 @@
     var target = clamp(raw, -MAX_ANGLE, MAX_ANGLE);
 
     // if balanced let angle be 0
-    // threshold 100 for better ux - we divide torque by 100 for improving ux
-    // example: real torque 3300 vs 3380, diff=80
-    // displayed: 33 vs 34 (divided and rounded)
-    // even if displayed values close, we still call it balanced for smooth feel
-    const BALANCE_THRESHOLD = 100; 
-    let balanced = Math.abs(diff) < BALANCE_THRESHOLD;
+    // we move on and do to the shwons torks
+    // if the values ther are shown is equal then its balanced
+    const displayedDiff = Math.abs(displayedRightT - displayedLeftT);
+    let balanced = displayedDiff === 0; // the shown torks are equal when balanced
     
     if(balanced) {
       target = 0; 
@@ -366,9 +366,15 @@
     var diff = app.targetAngle - app.currentAngle;
 
     // smooth easing towards target angle
-    // 0.08 is the easing factor - tried different values, this feels natural
+    // move faster when its balanced.
+    let easingFactor = 0.08;
+    if(app.targetAngle === 0 && Math.abs(app.currentAngle) < 5) {
+      // dengede ve açı küçükse daha hızlı düzelt
+      easingFactor = 0.15;
+    }
+    
     if(Math.abs(diff) > 0.01) {
-      app.currentAngle += diff * 0.08;
+      app.currentAngle += diff * easingFactor;
     } else {
       app.currentAngle = app.targetAngle;
     }
@@ -451,8 +457,6 @@
     app.longPressTimer = setTimeout(function() {
       app.longPressTriggered = true;
       removeObj(id);
-      // vibrate ? maybe delete
-      if(navigator.vibrate) navigator.vibrate(50);
     }, 500);
     
     app.dragging = true;
