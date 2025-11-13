@@ -1,7 +1,8 @@
+/* color pallete - maybe add dark mode later */
 :root {
   --sky-top: #87ceeb;
   --sky-bottom: #f0f9ff;
-  --plank-color: #8c5a3b;
+  --plank-color: #a56a44;
   --plank-edge: #5a3a22;
   --pivot-color: #c53030;
   --object-color: #3b82f6;
@@ -12,93 +13,103 @@
   --sun-color: #ffdd00;
   --ground-top: #a5d6a7;
   --ground-bottom: #81c784;
+  --balanced-glow: rgba(255, 215, 0, 0.85);
 }
 
-* {
-  box-sizing: border-box;
-}
+/* basic reset  */
+* { box-sizing: border-box; }
 
-html, body {
-  height: 100%;
+html, body { 
+  height: 100%; 
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
   color: var(--text);
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 70%);
   overflow-x: hidden;
 }
 
-.page {
+/* main container ok */
+.page-container {
   max-width: 960px;
   margin: 0 auto;
   padding: 24px 16px 48px;
 }
 
-.title {
+/* header ok */
+header {
   text-align: center;
-  margin: 0 0 16px;
-  font-size: 32px;
-  font-weight: 700;
-  color: #1e3a8a;
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
-}
-
-.hud {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
   margin-bottom: 24px;
 }
 
-.weights {
-  display: inline-flex;
-  gap: 8px;
-  align-items: baseline;
-  background: rgba(255, 255, 255, 0.7);
+.title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* hud with info cards - modern ui ? */
+.hud {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+/* infocards - not bad */
+.info-card {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px 16px;
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(5px);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 10px 16px;
+  padding: 12px 18px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   font-size: 14px;
 }
 
 .label {
   color: var(--muted);
+  font-weight: 500;
 }
 
 .value {
   font-weight: 600;
-  min-width: 40px;
-  text-align: left;
+  min-width: 50px;
 }
 
-.controls {
-  margin-left: 20px;
-}
-
-button#resetBtn {
-  appearance: none;
+#resetBtn {
   border: none;
   background: var(--accent);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-weight: 600;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(14,165,233,0.3);
+  box-shadow: 0 4px 6px rgba(14, 165, 233, 0.3);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s;
 }
 
-button#resetBtn:hover {
+#resetBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(14,165,233,0.4);
+  box-shadow: 0 6px 12px rgba(14, 165, 233, 0.4);
 }
 
+/* main stage area with sky bg */
 .stage {
   position: relative;
   height: 400px;
@@ -108,20 +119,21 @@ button#resetBtn:hover {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: transparent;
 }
 
+/* sun decoration - might add moon for dark mode later */
 .sun {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 60px;
-    height: 60px;
-    background: var(--sun-color);
-    border-radius: 50%;
-    box-shadow: 0 0 40px var(--sun-color), 0 0 80px var(--sun-color);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  background: var(--sun-color);
+  border-radius: 50%;
+  box-shadow: 0 0 40px var(--sun-color), 0 0 80px var(--sun-color);
 }
 
+/* ground/grass maybe perspective ? */
 .ground {
   position: absolute;
   bottom: 0;
@@ -133,6 +145,7 @@ button#resetBtn:hover {
   z-index: 0;
 }
 
+/* seesaw  */
 .seesaw {
   position: relative;
   width: 560px;
@@ -143,32 +156,25 @@ button#resetBtn:hover {
   z-index: 1;
 }
 
+/* the actual plank that rotates */
 .plank {
   position: relative;
   width: 400px;
   height: 14px;
   background: linear-gradient(180deg, var(--plank-color), var(--plank-edge));
   border-radius: 8px;
-  transform-origin: 50% 50%;
+  transform-origin: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: box-shadow 0.4s ease;
+  transition: box-shadow 0.5s ease-out;
+  cursor: pointer;
 }
 
+/* glowing effect when balanced - feels rewarding good for ux a little gameification */
 .seesaw.balanced .plank {
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2), 0 0 15px 5px rgba(255, 215, 0, 0.7);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2), 0 0 20px 8px var(--balanced-glow);
 }
 
-.plank.shake {
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-@keyframes shake {
-  10%, 90% { transform: translate3d(-1px, 0, 0) rotate(var(--current-angle, 0deg)); }
-  20%, 80% { transform: translate3d(2px, 0, 0) rotate(var(--current-angle, 0deg)); }
-  30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(var(--current-angle, 0deg)); }
-  40%, 60% { transform: translate3d(4px, 0, 0) rotate(var(--current-angle, 0deg)); }
-}
-
+/* center pivot line */
 .center-line {
   position: absolute;
   left: 50%;
@@ -180,12 +186,14 @@ button#resetBtn:hover {
   pointer-events: none;
 }
 
+/* layer that holds all objects */
 .objects-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
+/* weight objects - blue circles */
 .object {
   position: absolute;
   top: -18px;
@@ -197,29 +205,39 @@ button#resetBtn:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.25), inset 0 2px 2px rgba(255,255,255,0.3);
   display: grid;
   place-items: center;
-  color: #fff;
+  color: white;
   font-size: 12px;
   font-weight: 700;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-  transform: translateX(-50%) scale(1);
-  animation: dropIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform: translateX(-50%);
+  animation: dropIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: grab;
   pointer-events: auto;
+  will-change: transform, left;
+  transition: transform 0.2s, box-shadow 0.2s, left 0.05s ease-out;
 }
 
-.object:active { cursor: grabbing; }
+.object:active { 
+  cursor: grabbing; 
+}
 
 .object:hover {
-  transform: translateX(-50%) scale(1.1);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  transform: translateX(-50%) scale(1.15);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
 }
 
-@keyframes dropIn {
-  from { transform: translateX(-50%) translateY(-40px) scale(0); }
-  to { transform: translateX(-50%) translateY(0) scale(1); }
+/* dragging state - good ui maybe use this more on other elements  ?*/
+.object.dragging {
+  z-index: 10;
+  transform: translateX(-50%) scale(1.3) translateY(-12px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(59, 130, 246, 0.4);
+  filter: brightness(1.2) drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
 }
 
+/* red pivot pole maybe triangle for natural feel ? */
 .pivot-container {
   position: absolute;
   top: 50%;
@@ -236,6 +254,7 @@ button#resetBtn:hover {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+/* arrow that shows which way its going */
 .direction-indicator {
   position: absolute;
   bottom: 8px;
@@ -246,7 +265,7 @@ button#resetBtn:hover {
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
   border-top: 20px solid var(--pivot-color);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
   pointer-events: none;
   filter: drop-shadow(0 2px 4px rgba(197,48,48,0.4));
 }
@@ -264,9 +283,277 @@ button#resetBtn:hover {
   transform: translateX(-50%) scale(0.8);
 }
 
-.hint {
-  text-align: center;
-  color: var(--muted);
-  margin-top: 16px;
-  font-size: 14px;
+/* shake animation when adding weight maybe remove ? */
+.plank.shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { 
+    transform: translate3d(-1px, 0, 0) rotate(var(--current-angle, 0deg)); 
+  }
+  20%, 80% { 
+    transform: translate3d(2px, 0, 0) rotate(var(--current-angle, 0deg)); 
+  }
+  30%, 50%, 70% { 
+    transform: translate3d(-4px, 0, 0) rotate(var(--current-angle, 0deg)); 
+  }
+  40%, 60% { 
+    transform: translate3d(4px, 0, 0) rotate(var(--current-angle, 0deg)); 
+  }
+}
+
+/* drop animation for new objects - bouncy feel */
+@keyframes dropIn {
+  from {
+    transform: translateX(-50%) translateY(-50px) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* mobile stuff */
+@media (max-width: 768px) {
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .page-container {
+    padding: 12px 12px 12px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
+
+  .hint {
+    font-size: 11px;
+    padding: 0 8px;
+    margin-top: 4px;
+  }
+
+  header {
+    margin-bottom: 16px;
+  }
+
+ 
+  .hud {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .info-card {
+    width: 100%;
+    max-width: 320px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  #resetBtn {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 20px;
+  }
+
+  /* main stage area - fill remaining space ok */
+  .stage {
+    height: auto;
+    flex: 1;
+    min-height: 300px;
+  }
+
+  /* sun is too big on mobile ok */
+  .sun {
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    left: 15px;
+  }
+
+  .ground {
+    height: 100px;
+  }
+
+  /* smaller seesaw for mobile screens ok */
+  .seesaw {
+    width: 100%;
+    max-width: 420px;
+    height: 220px;
+  }
+
+  /* plank shrinks a bit */
+  .plank {
+    width: 320px;
+    height: 12px;
+  }
+
+  /* objects slightly smaller on phone ok */
+  .object {
+    width: 22px;
+    height: 22px;
+    top: -16px;
+    font-size: 11px;
+  }
+
+  /* pivot needs to be proportional ok */
+  .pivot {
+    width: 12px;
+    height: 90px;
+  }
+
+  /* arrow indicator adjustments */
+  .direction-indicator.to-right {
+    transform: translateX(-50%) translateX(110px) rotate(90deg);
+  }
+
+  .direction-indicator.to-left {
+    transform: translateX(-50%) translateX(-110px) rotate(-90deg);
+  }
+}
+
+/* really small phones like SE we dont need tho */
+@media (max-width: 380px) {
+  .title {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  .hint {
+    font-size: 10px;
+  }
+
+  header {
+    margin-bottom: 12px;
+  }
+
+  .hud {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .info-card {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  /* stage fills space ok */
+  .stage {
+    flex: 1;
+    min-height: 260px;
+  }
+
+  .seesaw {
+    height: 200px;
+  }
+
+  /* tiny plank for tiny screens ok*/
+  .plank {
+    width: 260px;
+    height: 10px;
+  }
+
+  .object {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .pivot {
+    width: 10px;
+    height: 75px;
+  }
+
+  .sun {
+    width: 35px;
+    height: 35px;
+  }
+
+  /* arrow closer on small screens */
+  .direction-indicator.to-right {
+    transform: translateX(-50%) translateX(90px) rotate(90deg);
+  }
+
+  .direction-indicator.to-left {
+    transform: translateX(-50%) translateX(-90px) rotate(-90deg);
+  }
+}
+
+/* landscape mode on phones - !! */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .page-container {
+    padding: 8px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+
+  .hint {
+    margin-top: 2px;
+    font-size: 10px;
+  }
+
+  header {
+    margin-bottom: 10px;
+  }
+
+  .hud {
+    flex-direction: row;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+
+  .info-card {
+    font-size: 10px;
+    padding: 6px 10px;
+    max-width: none;
+  }
+
+  #resetBtn {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  /* shorter stage for landscape but fill remaining space ok */
+  .stage {
+    flex: 1;
+    min-height: 200px;
+  }
+
+  .seesaw {
+    height: 160px;
+  }
+
+  .ground {
+    height: 60px;
+  }
+
+  .sun {
+    width: 28px;
+    height: 28px;
+    top: 8px;
+    left: 8px;
+  }
+
+  .pivot {
+    height: 65px;
+  }
 }

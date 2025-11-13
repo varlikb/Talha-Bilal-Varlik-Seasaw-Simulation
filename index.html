@@ -1,62 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Advanced Seesaw Simulation</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <!-- Audio elements for sound effects -->
-    <audio id="addSound" src="https://www.soundjay.com/button/sounds/button-4.mp3" preload="auto"></audio>
-    <audio id="removeSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
-    <audio id="balanceSound" src="https://www.soundjay.com/button/sounds/button-10.mp3" preload="auto"></audio>
+<head>
+  <meta charset="utf-8">
+  <!-- viewport settings for mobile - prevent zoom on double tap -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Seesaw Physics Simulator</title>
 
-    <main class="page">
+  <!-- basic layout, gotta rework -->
+  <!-- we can add dark mode -->
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- nain continer that wraps everything -->
+  <main class="page-container">
+
+    <!-- header  -->
+    <header>
       <h1 class="title">Interactive Seesaw</h1>
-      <div class="hud">
-        <div class="weights">
-          <span class="label">Left Weight:</span>
-          <span id="leftWeight" class="value">0 kg</span>
-          <span class="label">Torque:</span>
-          <span id="leftTorque" class="value">0</span>
-        </div>
-        <div class="weights">
-          <span class="label">Right Weight:</span>
-          <span id="rightWeight" class="value">0 kg</span>
-          <span class="label">Torque:</span>
-          <span id="rightTorque" class="value">0</span>
-        </div>
-        <div class="controls">
-          <button id="resetBtn" type="button" title="Clear all objects">
-            Reset
-          </button>
-        </div>
+      <!-- hint text - works for both desktop and mobile -->
+      <p class="hint">
+        Tap/click to add weight • Long press/right-click to remove • Drag to move
+      </p>
+    </header>
+
+    <!-- mini hud that shows tork etc. -->
+    <div class="hud">
+      <div class="info-card">
+        <span class="label">Left Torque:</span>
+        <span id="leftTorque" class="value">0</span>
+        <span class="label">Left Weight:</span>
+        <span id="leftWeight" class="value">0 kg</span>
       </div>
 
-      <section class="stage">
-        <div class="sun"></div>
-        <div class="ground"></div>
-        <div id="seesaw" class="seesaw" aria-label="Seesaw Plank" role="button">
-          <div class="scale" id="scale" aria-hidden="true"></div>
-          <div class="plank" id="plank">
-            <div class="center-line" aria-hidden="true"></div>
-            <div class="objects-layer" id="objectsLayer"></div>
-          </div>
-          <div class="pivot-container">
-            <div class="pivot-base"></div>
-            <div class="pivot" aria-hidden="true"></div>
-          </div>
-          <!-- Direction indicator arrow -->
-          <div id="directionIndicator" class="direction-indicator neutral"></div>
+      <div class="controls">
+        <!-- reset  -->
+        <button id="resetBtn" type="button">Reset</button>
+      </div>
+
+      <div class="info-card">
+        <span class="label">Tilt Angle:</span>
+        <span id="tiltAngle" class="value">0°</span>
+        <span class="label">Next Weight:</span>
+        <span id="nextWeight" class="value">-- kg</span>
+      </div>
+
+      <div class="info-card">
+        <span class="label">Right Torque:</span>
+        <span id="rightTorque" class="value">0</span>
+        <span class="label">Right Weight:</span>
+        <span id="rightWeight" class="value">0 kg</span>
+      </div>
+    </div>
+
+    <!-- main layout changed with sun and more ui -->
+    <section class="stage">
+      <!-- dark mode moon ? -->
+      <div class="sun"></div>
+      <div class="ground"></div>
+
+      <div id="seesaw" class="seesaw">
+        <!-- 400px plank-->
+        <div class="plank" id="plank">
+          <div class="center-line"></div>
+          <div class="objects-layer" id="objectsLayer"></div>
         </div>
-      </section>
 
-      <p class="hint">
-        Click to add weight • Right-click to remove • Drag to move
-      </p>
-    </main>
+        <!-- pivot -->
+        <div class="pivot-container">
+          <div class="pivot-base"></div>
+          <div class="pivot"></div>
+        </div>
 
-    <script src="./main.js"></script>
-  </body>
+        <!-- arrow ind that moves with plank -->
+        <div id="directionIndicator" class="direction-indicator neutral"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- main script -->
+  <script src="./main.js"></script>
+</body>
 </html>
