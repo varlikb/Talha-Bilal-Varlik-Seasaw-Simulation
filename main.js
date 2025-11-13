@@ -1,3 +1,5 @@
+'use strict';
+
 // seesaw physics simulation
   // TODO: refactor take notes add more comments to see what u did
   (function() {

@@ -1,4 +1,4 @@
-/* color pallete - should i add dark mode later? */
+/* colors i need - should i add dark mode later? */
 :root {
   --sky-top: #87ceeb;
   --sky-bottom: #f0f9ff;
@@ -301,7 +301,7 @@ header {
   }
 }
 
-/* mobile responsive - tested on iphone */
+/* mobile responsive - tested devtools */
 @media (max-width: 768px) {
   body {
     height: 100vh;
