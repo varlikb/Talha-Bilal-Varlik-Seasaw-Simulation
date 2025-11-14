@@ -4,7 +4,7 @@
   // TODO: refactor take notes add more comments to see what u did
   (function() {
     // plank length - not used anymore, we get it from DOM
-    const MAX_ANGLE = 42;
+    let MAX_ANGLE = 42;
     let ANGLE_SCALE = 1.0; // we reduced it so every little tork difference is visible for us
     const MIN_TILT = 2.2;
     const WEIGHT_MIN = 1;
